@@ -1,0 +1,58 @@
+clc;
+clear;
+
+% Read the image
+BW = imread("C:\Users\Swathika\Downloads\elep.jpg");
+
+% Create tiled layout
+tiledlayout(2,4);
+
+% Show original image
+nexttile
+imshow(BW);
+title("Original Image");
+
+% Convert to grayscale
+BW1 = rgb2gray(BW);
+nexttile
+imshow(BW1);
+title("Grayscale Image");
+
+% Convert grayscale to double for edge detection
+img = im2double(BW1);  
+
+% Canny Edge Detection with custom thresholds
+%canny
+img_canny = edge(img,"canny",0.4,0.5);
+nexttile
+plot(1,3)
+imshow(img_canny); title("Canny Edge Image");
+% Sobel Edge Detection
+img_sobel = edge(img, "sobel");
+nexttile
+imshow(img_sobel);
+title("Sobel Edge Image");
+
+% Prewitt Edge Detection
+img_prewitt = edge(img, "prewitt");
+nexttile
+imshow(img_prewitt);
+title("Prewitt Edge Image");
+
+% Roberts Edge Detection
+img_roberts = edge(img, "roberts");
+nexttile
+imshow(img_roberts);
+title("Roberts Edge Image");
+
+% Laplacian of Gaussian (LoG) Edge Detection
+img_log = edge(img, "log");
+nexttile
+imshow(img_log);
+title("LoG Edge Image");
+
+% Zero-cross Edge Detection
+img_zerocross = edge(img, "zerocross");
+nexttile
+imshow(img_zerocross);
+title("Zerocross Edge Image");
