@@ -1,0 +1,13 @@
+img1 = rgb2gray(imread("C:\Users\Swathika\Downloads\20110911181322jackie_chan.jpg"));
+img2 = rgb2gray(imread("C:\Users\Swathika\Downloads\81876xYme+L._UF1000,1000_QL80_.jpg"));
+disp(['MATLAB Version: ', version]);
+pts1 = detectSIFTFeatures(img1);
+pts2 = detectSIFTFeatures(img2);
+[features1, validPts1] = extractFeatures(img1, pts1);
+[features2, validPts2] = extractFeatures(img2, pts2);
+indexPairs = matchFeatures(features1, features2, 'MatchThreshold',100,'MaxRatio',0.7);
+matchedPts1 = validPts1(indexPairs(:,1)); 
+matchedPts2 = validPts2(indexPairs(:,2));
+figure; 
+showMatchedFeatures(img1, img2, matchedPts1, matchedPts2, 'montage');
+title('SIFT Feature Matching with Lowe''s Ratio Test');
