@@ -1,0 +1,18 @@
+filename = "C:\Users\Swathika\Downloads\2i3TK603pRdrEiN7mnoSa6EurvY-mobile.jpg";
+img = imread(filename);
+gray = rgb2gray(img);
+
+% Compute corner strength using Harris method
+cStrength = imdilate(cornermetric(gray, 'Harris'), strel('disk', 1));
+
+% Threshold to get corner mask
+mask = cStrength > 0.01 * max(cStrength(:));
+
+% Prepare corner image visualization
+cornerImg = img;
+cornerImg(repmat(mask, [1, 1, 3])) = 0;
+cornerImg(:, :, 1) = uint8(min(double(cornerImg(:, :, 1)) + 255 * double(mask), 255));
+
+% Display results
+figure, imshow(img), title('Original Image');
+figure, imshow(cornerImg), title('Harris Corners Highlighted');
