@@ -1,0 +1,42 @@
+% Read grayscale image
+img_histo = imread("C:\Users\Swathika\Downloads\profile-cute-dp_16.jpg");
+if size(img_histo,3) == 3
+    img_histo = rgb2gray(img_histo);
+end
+% Resize image to 50%
+scale_percent = 50;
+width = round(size(img_histo,2) * scale_percent / 100);
+height = round(size(img_histo,1) * scale_percent / 100);
+resized = imresize(img_histo, [height, width]);
+fprintf('Resized Dimensions: %dx%d\n', size(resized,1), size(resized,2));
+figure;
+imshow(resized);
+title('Resized Image');
+% Histogram Equalization
+equalized = histeq(resized);
+% Combine original and equalized for comparison
+side_by_side = [resized equalized];
+imwrite(side_by_side, 'Histo1_res.png');
+figure;
+imshow(side_by_side);
+title('Original and Equalized Image');
+% Plot Histogram and CDF
+[h, ~] = imhist(resized);
+cdf = cumsum(h);
+cdf_normalized = cdf * max(h) / max(cdf);
+figure;
+yyaxis left;
+bar(h, 'r'); ylabel('Histogram');
+yyaxis right;
+plot(cdf_normalized, 'b', 'LineWidth', 1.5); ylabel('CDF');
+xlim([0 256]); xlabel('Intensity Value');
+legend('Histogram', 'CDF');
+title('Histogram and CDF of Resized Image');
+saveas(gcf, 'histo2_cdf.png');
+% Display saved result images
+img1 = imread('Histo1_res.png');
+img2 = imread('histo2_cdf.png');
+figure;
+subplot(1,2,1); imshow(img1); title('Original & Equalized Image');
+subplot(1,2,2); imshow(img2); title('CDF Plot & Histogram');
+saveas(gcf, 'histogram_result3.png');
